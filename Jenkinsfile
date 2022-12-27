@@ -4,8 +4,8 @@
 pipeline {
     agent any
     environment {
-        def git_branch = 'main'
-        def git_url = 'https://github.com/avidere/demo-counter-app.git'
+        def git_branch = 'master'
+        def git_url = 'https://github.com/avidere/TomcatMavenApp.git'
 
         def mvntest = 'mvn test '
         def mvnpackage = 'mvn clean install'
@@ -57,18 +57,18 @@ pipeline {
                     waitForQualityGate abortPipeline: true, credentialsId: "${sonar_cred}"
                 }
             }
-        } 
+        } */
         stage('Upload Artifact to nexus repository') {
             steps {
                 script {
 
                     def mavenpom = readMavenPom file: 'pom.xml'
-                    def nex_repo = mavenpom.version.endsWith('SNAPSHOT') ? 'demoproject-snapshot' : 'demoproject-Release'
+                    def nex_repo = mavenpom.version.endsWith('SNAPSHOT') ? 'tomcat-SNAPSHOT' : 'tomact-Release'
                     nexusArtifactUploader artifacts: [
                     [
-                        artifactId: 'springboot',
+                        artifactId: 'helloworld',
                         classifier: '',
-                        file: "target/springboot-${mavenpom.version}.jar",
+                        file: "target/helloworld-${mavenpom.version}.war",
                         type: 'jar'
                     ]
                 ],
@@ -82,7 +82,7 @@ pipeline {
                     echo 'Artifact uploaded to nexus repository'
                 }
             }
-        } */
+        } 
     }
 }
 
