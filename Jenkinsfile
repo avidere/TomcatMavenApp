@@ -85,9 +85,9 @@ pipeline {
         }
         stage('Execute Ansible Playbook'){
                 steps{
-                    ansiblePlaybook credentialsId: 'Ansadmin', installation: 'Ansible', inventory: 'inventory.inv', playbook: 'tomact.yaml'
+                    ansiblePlaybook credentialsId: 'Ansadmin', installation: 'Ansible', inventory: 'hosts', playbook: 'tomact.yaml'
                 }
-              }
-            }
         }
-  
+    }
+}
+
