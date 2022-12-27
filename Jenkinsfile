@@ -85,7 +85,7 @@ pipeline {
         }
         stage('Execute Ansible Playbook'){
                 steps{
-                    ansiblePlaybook become: true, credentialsId: 'Ansible', installation: 'Ansible', inventory: 'inventory.inv', playbook: 'tomact.yaml'
+                    ansiblePlaybook become: true, credentialsId: 'devops', installation: 'Ansible', inventory: 'inventory.inv', playbook: 'tomact.yaml'
                 }
         }
     }
