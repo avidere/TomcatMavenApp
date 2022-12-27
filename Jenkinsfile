@@ -85,11 +85,7 @@ pipeline {
         }
         stage('Execute Ansible Playbook'){
                 steps{
-                    sshagent(['Ansible-Server']) {
-
-                script{
-
-                    ansiblePlaybook become: true, installation: 'Ansible', inventory: 'inventory', playbook: 'tomact.yaml'
+                    ansiblePlaybook credentialsId: 'Ansadmin', installation: 'Ansible', inventory: 'inventory', playbook: 'tomact.yaml'
                 }
               }
             }
