@@ -82,7 +82,16 @@ pipeline {
                     echo 'Artifact uploaded to nexus repository'
                 }
             }
-        } 
+        }
+        stage(Execute Ansible Playbook){
+            sshagent(['Ansible-Server']) {
+                script{
+
+                    ansiblePlaybook become: true, installation: 'Ansible', inventory: '/Tomcat-demo/inventory', playbook: '/Tomcat-demo/tomact.yaml'
+                }
+            }
+
+        }
     }
 }
 
