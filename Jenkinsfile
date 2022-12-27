@@ -90,10 +90,8 @@ pipeline {
                         ssh devops@13.112.68.39
                         pwd
                         '''
-                   }
+                    }
                 }
-              }
-            }
         }
     }
 }
