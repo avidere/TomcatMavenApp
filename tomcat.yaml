@@ -4,17 +4,20 @@
   become: true
   tasks:
     - name: Update the System Packages
+      become: yes
       apt:
         upgrade: yes
         update_cache: yes
 
     - name: Install JAVA
+      become: yes
       apt:
         name: openjdk-11-jdk
         state: present
 
 
     - name: Create a Tomcat Directory
+      become: yes
       file:
         path: /opt/tomcat
         owner: devops
@@ -36,6 +39,7 @@
         remote_src: yes
 
     - name: Change ownership of tomcat directory
+      become: yes
       file:
         path: /opt/tomcat
         owner: devops
@@ -143,6 +147,7 @@
        dest: /etc/systemd/system/tomcat.service
 
     - name: Start and Enable Tomcat on sever
+      become: yes
       systemd:
         name: tomcat
         state: restarted
