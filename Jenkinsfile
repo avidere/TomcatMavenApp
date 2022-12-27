@@ -85,7 +85,7 @@ pipeline {
         } */
         stage('Execute Ansible Playbook'){
                 steps{
-                    ansiblePlaybook credentialsId: 'Ansible_server', installation: 'Ansible', inventory: 'inventory.inv', playbook: 'tomcat.yaml'
+                    ansiblePlaybook credentialsId: 'Ansible_server', installation: 'Ansible', inventory: 'hosts', playbook: 'tomcat.yaml'
                 }
         }
     }
