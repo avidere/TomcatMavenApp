@@ -84,8 +84,15 @@ pipeline {
             }
         } */
         stage('Execute Ansible Playbook'){
+                def ans_cred = 'jenkins'
+                def tool = 'Ansible'
+                def inv_file = 'inventory'
+                def ans_play = 'tomcat.yaml'
                 steps{
-                    ansiblePlaybook credentialsId: 'jenkins', installation: 'Ansible', inventory: 'inventory', playbook: 'tomcat.yaml'
+                    ansiblePlaybook credentialsId: "${env.ans_cred}", 
+                    installation: "${env.tool}", 
+                    inventory: "${env.inv_file}", 
+                    playbook: "${env.ans_paly}"
                 }
         }
     }
