@@ -18,6 +18,11 @@ pipeline {
         def nex_url = '172.31.28.226:8081'
         def nex_ver = 'nexus3'
         def proto = 'http'
+
+        def ans_cred = 'jenkins'
+        def tool = 'Ansible'
+        def inv_file = 'inventory'
+        def ans_play = 'tomcat.yaml'
     }
     stages {
         stage('Git Checkout') {
@@ -84,10 +89,6 @@ pipeline {
             }
         } */
         stage('Execute Ansible Playbook'){
-                def ans_cred = 'jenkins'
-                def tool = 'Ansible'
-                def inv_file = 'inventory'
-                def ans_play = 'tomcat.yaml'
                 steps{
                     ansiblePlaybook credentialsId: "${env.ans_cred}", 
                     installation: "${env.tool}", 
