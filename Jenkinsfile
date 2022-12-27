@@ -85,10 +85,12 @@ pipeline {
         }
         stage('Execute Ansible Playbook'){
                 steps{
-                    sshagent(['Ansible-Server']) {
-                script{
-
-                    ansiblePlaybook become: true, installation: 'Ansible', inventory: 'inventory', playbook: 'tomact.yaml'
+                    withCredentials([usernameColonPassword(credentialsId: 'ansible', variable: 'ansible')]) {
+                        sh'''
+                        ssh devops@13.112.68.39
+                        pwd
+                        '''
+                   }
                 }
               }
             }
