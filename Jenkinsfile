@@ -87,7 +87,7 @@ pipeline {
                 steps{
                 script{
 
-                    ansiblePlaybook become: true, installation: 'Ansible', inventory: '/Tomcat-demo/inventory', playbook: '/Tomcat-demo/tomact.yaml'
+                    ansiblePlaybook become: true, installation: 'Ansible', inventory: 'inventory', playbook: 'tomact.yaml'
                 }
                 
             }
