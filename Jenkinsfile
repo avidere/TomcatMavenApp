@@ -83,7 +83,7 @@ pipeline {
                 }
             }
         }
-        stage(Execute Ansible Playbook){
+        stage('Execute Ansible Playbook'){
             sshagent(['Ansible-Server']) {
                 script{
 
