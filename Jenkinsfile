@@ -87,7 +87,7 @@ pipeline {
                 steps{
                     withCredentials([usernameColonPassword(credentialsId: 'ansible', variable: 'ansible')]) {
                         sh'''
-                        ssh  -o StrictHostKeyChecking=no devops@13.112.68.39
+                        ssh  devops@13.112.68.39 -o StrictHostKeyChecking=no
                         '''
                     }
                 }
