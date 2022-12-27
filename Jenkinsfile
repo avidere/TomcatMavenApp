@@ -85,14 +85,12 @@ pipeline {
         }
         stage('Execute Ansible Playbook'){
                 steps{
-
-            sshagent(['Ansible-Server']) {
                 script{
 
                     ansiblePlaybook become: true, installation: 'Ansible', inventory: '/Tomcat-demo/inventory', playbook: '/Tomcat-demo/tomact.yaml'
                 }
-             }
-           }
+                
+            }
 
         }
     }
