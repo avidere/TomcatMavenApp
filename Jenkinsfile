@@ -86,7 +86,7 @@ pipeline {
         stage('Execute Ansible Playbook'){
                 steps{
 
-                    git branch: 'main', url: 'https://github.com/avidere/Ansible.git'
+                   // git branch: 'main', url: 'https://github.com/avidere/Ansible.git'
 
                     ansiblePlaybook credentialsId: 'jenkins', installation: 'Ansible', inventory: 'inventory', playbook: 'tomcat.yaml'
                 }
