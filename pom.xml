@@ -4,8 +4,8 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>example.demo</groupId>
   <artifactId>helloworld</artifactId>
-  <packaging>war</packaging>
   <version>1.0-SNAPSHOT</version>
+  <packaging>war</packaging>
   <name>helloworld Maven Webapp</name>
   <url>http://maven.apache.org</url>
 

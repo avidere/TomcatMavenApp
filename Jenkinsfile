@@ -69,7 +69,7 @@ pipeline {
                         artifactId: 'helloworld',
                         classifier: '',
                         file: "target/helloworld-${mavenpom.version}.war",
-                        type: 'jar'
+                        type: 'war'
                     ]
                 ],
                     credentialsId: "${env.nex_cred}",
