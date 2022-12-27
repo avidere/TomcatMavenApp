@@ -20,8 +20,8 @@
       become: yes
       file:
         path: /opt/tomcat
-        owner: devops
-        group: devops
+        owner: jenkins
+        group: jenkins
         mode: 777
         recurse: yes
 
@@ -29,12 +29,12 @@
       become: yes
       get_url:
         url: https://archive.apache.org/dist/tomcat/tomcat-10/v10.0.8/bin/apache-tomcat-10.0.8.tar.gz
-        dest: /home/devops
+        dest: /home/jenkins
 
     - name: unarchive tomcat
       become: yes
       unarchive:
-        src: /home/devops/apache-tomcat-10.0.8.tar.gz
+        src: /home/jenkins/apache-tomcat-10.0.8.tar.gz
         dest: /opt/tomcat
         remote_src: yes
 
@@ -42,8 +42,8 @@
       become: yes
       file:
         path: /opt/tomcat
-        owner: devops
-        group: devops
+        owner: jenkins
+        group: jenkins
         mode: 777
         state: directory
 
@@ -150,5 +150,5 @@
       become: yes
       systemd:
         name: tomcat
-        state: restarted
+        state: started
         daemon_reload: true
