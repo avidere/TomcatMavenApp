@@ -68,7 +68,7 @@ pipeline {
                     [
                         artifactId: 'helloworld',
                         classifier: '',
-                        file: "target/helloworld-${mavenpom.version}.war",
+                        file: "target/helloworld.war",
                         type: 'war'
                     ]
                 ],
