@@ -1,5 +1,5 @@
  - name: download artifact from nexus server
    become: yes
    get_url:
-     url: http://18.180.78.195:8081/repository/demoproject-snapshot/com/example/springboot/1.2.1-SNAPSHOT/springboot-1.2.1-20221226.174350-28.war
+     url: http://35.76.123.24:8081/repository/tomcat-SNAPSHOT/com/example/helloworld/1.0-SNAPSHOT/helloworld-1.0-20221227.115435-28.war
      dest: /opt/tomcat/apache-tomcat-10.0.8/webapps
