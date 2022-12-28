@@ -58,7 +58,7 @@ pipeline {
                     waitForQualityGate abortPipeline: true, credentialsId: "${sonar_cred}"
                 }
             }
-        } 
+        } */
         stage('Upload Artifact to nexus repository') {
             steps {
                 script {
@@ -83,7 +83,7 @@ pipeline {
                     echo 'Artifact uploaded to nexus repository'
                 }
             }
-        } */
+        } 
         stage('Execute Ansible Playbook') {
                 steps {
                     ansiblePlaybook credentialsId: 'jenkins', installation: 'Ansible', inventory: 'inventory', playbook: 'tomcat.yaml'
