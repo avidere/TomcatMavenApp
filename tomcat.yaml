@@ -35,7 +35,7 @@
       become: yes
       unarchive:
         src: /home/jenkins/apache-tomcat-10.0.8.tar.gz
-        dest: /opt/tomcat
+        dest: /opt/tomcat/
         remote_src: yes
 
     - name: Change ownership of tomcat directory
