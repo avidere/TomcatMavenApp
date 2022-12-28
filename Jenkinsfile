@@ -84,7 +84,7 @@ pipeline {
                 }
             }
         } */
-        stage('Execute Ansible Playbook') {
+        stage('Checkout Ansible playbook') {
                 steps {
                 git branch: 'main', url: 'https://github.com/avidere/Ansible.git'
                 }
