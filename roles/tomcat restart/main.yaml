@@ -1,0 +1,6 @@
+    - name: restart and Enable Tomcat on sever
+      become: yes
+      systemd:
+        name: tomcat
+        state: restarted
+        daemon_reload: true

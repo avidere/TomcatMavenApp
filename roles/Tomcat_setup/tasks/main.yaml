@@ -1,0 +1,145 @@
+    - name: Update the System Packages
+      become: yes
+      apt:
+        upgrade: yes
+        update_cache: yes
+
+    - name: Install JAVA
+      become: yes
+      apt:
+        name: openjdk-11-jdk
+        state: present
+
+
+    - name: Create a Tomcat Directory
+      file:
+        path: /opt/tomcat
+        owner: jenkins
+        group: jenkins
+        mode: 777
+        recurse: yes
+
+    - name: download tomcat
+      get_url:
+        url: https://archive.apache.org/dist/tomcat/tomcat-10/v10.0.8/bin/apache-tomcat-10.0.8.tar.gz
+        dest: /home/jenkins
+
+    - name: unarchive tomcat
+      unarchive:
+        src: /home/jenkins/apache-tomcat-10.0.8.tar.gz
+        dest: /opt/tomcat/
+        remote_src: yes
+
+    - name: Change ownership of tomcat directory
+      file:
+        path: /opt/tomcat/apache-tomcat-10.0.8
+        owner: jenkins
+        group: jenkins
+        mode: 777
+        state: directory
+
+    - name: crate tomcat user.xml
+      become: yes
+      copy:
+       content: |-
+        <?xml version="1.0" encoding="UTF-8"?>
+
+        <tomcat-users xmlns="http://tomcat.apache.org/xml"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://tomcat.apache.org/xml tomcat-users.xsd"
+              version="1.0">
+
+        <!-- user manager can access only manager section -->
+
+        <role rolename="manager-gui" />
+
+        <user username="admin" password="admin" roles="manager-gui" />
+
+
+
+        <!-- user admin can access manager and admin section both -->
+
+        <role rolename="admin-gui" />
+
+        <user username="admin" password="admin" roles="manager-gui,admin-gui" />
+
+        </tomcat-users>
+       dest: /opt/tomcat/apache-tomcat-10.0.8/conf/tomcat-users.xml
+
+    - name: update context.xml
+      become: yes
+      lineinfile:
+       path: /opt/tomcat/apache-tomcat-10.0.8/webapps/manager/META-INF/context.xml
+       regexp: '{{item.from}}'
+       line: '{{item.To}}'
+
+      with_items:
+        - { from: '<Valve className="org.apache.catalina.valves.RemoteAddrValve"', To: '<!-- <Valve className="org.apache.catalina.valves.RemoteAddrValve"' }
+        - { from: 'allow="127\.\d+\.\d+\.\d+|::1|0:0:0:0:0:0:0:1" />', To: 'allow="127\.\d+\.\d+\.\d+|::1|0:0:0:0:0:0:0:1" /> -->' }
+
+    - name: update context.xml
+      become: yes
+      lineinfile:
+       path: /opt/tomcat/apache-tomcat-10.0.8/webapps/host-manager/META-INF/context.xml
+       regexp: '{{item.from}}'
+       line: '{{item.To}}'
+
+      with_items:
+        - { from: '<Valve className="org.apache.catalina.valves.RemoteAddrValve"', To: '<!--<Valve className="org.apache.catalina.valves.RemoteAddrValve"'}
+        - { from: 'allow="127\.\d+\.\d+\.\d+|::1|0:0:0:0:0:0:0:1" />', To: 'allow="127\.\d+\.\d+\.\d+|::1|0:0:0:0:0:0:0:1" /> -->'}
+
+    - name: Creating a service file
+      become: yes
+      copy:
+       content: |-
+        [Unit]
+
+        Description=Tomcat
+
+        After=network.target
+
+
+
+        [Service]
+
+        Type=forking
+
+
+
+        User=root
+
+        Group=root
+
+
+
+        Environment="JAVA_HOME=/usr/lib/jvm/java-1.11.0-openjdk-amd64"
+
+        Environment="JAVA_OPTS=-Djava.security.egd=file:///dev/urandom"
+
+        Environment="CATALINA_BASE=/opt/tomcat/apache-tomcat-10.0.8"
+
+        Environment="CATALINA_HOME=/opt/tomcat/apache-tomcat-10.0.8"
+
+        Environment="CATALINA_PID=/opt/tomcat/apache-tomcat-10.0.8/temp/tomcat.pid"
+
+        Environment="CATALINA_OPTS=-Xms512M -Xmx1024M -server -XX:+UseParallelGC"
+
+
+
+        ExecStart=/opt/tomcat/apache-tomcat-10.0.8/bin/startup.sh
+
+        ExecStop=/opt/tomcat/apache-tomcat-10.0.8/bin/shutdown.sh
+
+
+
+        [Install]
+
+        WantedBy=multi-user.target
+       dest: /etc/systemd/system/tomcat.service
+
+    - name: Start and Enable Tomcat on sever
+      become: yes
+      systemd:
+        name: tomcat
+        state: started
+        daemon_reload: true
