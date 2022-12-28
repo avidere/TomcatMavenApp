@@ -84,11 +84,6 @@ pipeline {
                 }
             }
         } */
-        stage('Checkout Ansible playbook') {
-                steps {
-                git branch: 'main', url: 'https://github.com/avidere/Ansible.git'
-                }
-        }
         stage('Execute Ansible Playbook') {
                 steps {
                     ansiblePlaybook credentialsId: 'jenkins', installation: 'Ansible', inventory: 'inventory', playbook: 'tomcat.yaml'
