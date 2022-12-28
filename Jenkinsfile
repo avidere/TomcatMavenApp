@@ -28,6 +28,7 @@ pipeline {
                 }
             }
         } 
+        /* groovylint-disable-next-line SpaceAfterClosingBrace */
         stage('Maven Build') {
             steps {
                 sh "${env.mvnpackage}"
@@ -83,11 +84,13 @@ pipeline {
                 }
             }
         } */
-        stage('Execute Ansible Playbook'){
-                steps{
-
-                   // git branch: 'main', url: 'https://github.com/avidere/Ansible.git'
-
+        stage('Execute Ansible Playbook') {
+                steps {
+                git branch: 'main', url: 'https://github.com/avidere/Ansible.git'
+                }
+        }
+        stage('Execute Ansible Playbook') {
+                steps {
                     ansiblePlaybook credentialsId: 'jenkins', installation: 'Ansible', inventory: 'inventory', playbook: 'tomcat.yaml'
                 }
         }
