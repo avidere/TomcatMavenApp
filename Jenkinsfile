@@ -63,8 +63,9 @@ pipeline {
         stage('Upload Artifact to nexus repository') {
             steps {
                 script {
+
                    def mavenpom = readMavenPom file: 'pom.xml'
-                  //  def nex_repo = mavenpom.version.endsWith('SNAPSHOT') ? 'tomcat-SNAPSHOT' : 'tomact-Release'
+                   def nex_repo = mavenpom.version.endsWith('SNAPSHOT') ? 'tomcat-SNAPSHOT' : 'tomact-Release'
                     nexusArtifactUploader artifacts: [
                     [
                         artifactId: 'helloworld',
