@@ -13,8 +13,9 @@ pipeline {
         def sonar_cred = 'sonar'
         def code_analysis = 'mvn clean install sonar:sonar'
         def utest_url = 'target/surefire-reports/**/*.xml'
+
         def nex_cred = 'nexus'
-        def grp_ID = 'com.example'
+        def grp_ID = 'example.demo'
         def nex_url = '172.31.28.226:8081'
         def nex_ver = 'nexus3'
         def proto = 'http'
@@ -58,11 +59,10 @@ pipeline {
                     waitForQualityGate abortPipeline: true, credentialsId: "${sonar_cred}"
                 }
             }
-        } */
+        } */ 
         stage('Upload Artifact to nexus repository') {
             steps {
                 script {
-
                     def mavenpom = readMavenPom file: 'pom.xml'
                     def nex_repo = mavenpom.version.endsWith('SNAPSHOT') ? 'tomcat-SNAPSHOT' : 'tomact-Release'
                     nexusArtifactUploader artifacts: [
@@ -84,11 +84,7 @@ pipeline {
                 }
             }
         } 
-        stage('Execute Ansible Playbook') {
-                steps {
-                    ansiblePlaybook credentialsId: 'jenkins', installation: 'Ansible', inventory: 'inventory', playbook: 'tomcat.yaml'
-                }
-        }
+
     }
 }
 
