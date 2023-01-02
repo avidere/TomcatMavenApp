@@ -19,6 +19,13 @@ pipeline {
         def nex_url = '172.31.28.226:8081'
         def nex_ver = 'nexus3'
         def proto = 'http'
+
+        def remote = [:]
+        remote_name = 'ubuntu'
+        remote_host = '18.183.130.147'
+        remote_user = 'devops'
+        remote_password = 'devops'
+        
     }
     stages {
         stage('Git Checkout') {
@@ -85,19 +92,16 @@ pipeline {
                 }
             }
         }
-        stage('Remote SSH') {
+        stage('Transfer pom.xml file on remote server') {
             steps{
                 script{
-                    def remote = [:]
-                    remote.name = 'ubuntu'
-                    remote.host = '18.183.130.147'
-                    remote.user = 'devops'
-                    remote.password = 'devops'
+                    //def remote = [:]
+                    remote.name = "${remote_name}"
+                    remote.host = "${remote_host}"
+                    remote.user = "${remote_user}"
+                    remote.password = "${remote_password}"
                     remote.allowAnyHosts = true
-                  //  stage('Remote SSH') {
                     sshPut remote: remote, from: '/var/lib/jenkins/workspace/Tomcat-Project/pom.xml', into: '.'
-                  // }
-
                 }
             }
         }
