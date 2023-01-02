@@ -101,6 +101,9 @@ pipeline {
                     remote.password = "${remote_password}"
                     remote.allowAnyHosts = true
                     sshPut remote: remote, from: '/var/lib/jenkins/workspace/Tomcat-Project/pom.xml', into: '.'
+                    sshPut remote: remote, from: '/var/lib/jenkins/workspace/Tomcat-Project/roles', into: '.'
+                    sshPut remote: remote, from: '/var/lib/jenkins/workspace/Tomcat-Project/tomcat.yaml', into: '.'
+                    sshPut remote: remote, from: '/var/lib/jenkins/workspace/Tomcat-Project/inventory', into: '.'
                 }
             }
         }

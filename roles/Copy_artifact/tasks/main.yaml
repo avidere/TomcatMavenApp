@@ -1,0 +1,39 @@
+
+    - name: copy pom.xml file to managed server
+      copy:
+        src: /home/devops/pom.xml
+        dest: /home/devops/pom.xml
+
+    - name: update pom.xml
+      become: yes
+      lineinfile:
+       path: /home/devops/pom.xml
+       regexp: <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+       line: <project>
+
+    - name: Read an element's attribute values
+      community.general.xml:
+        path: /home/devops/pom.xml
+        xpath: /project/version
+        content: text
+      register: pom_version
+
+    - name: Set variable with extracted value
+      set_fact:
+        my_variable: "{{ pom_version.matches[0].version }}"
+
+    - name : display values
+      debug:
+        var: my_variable
+
+    - name: Download artifact from Nexus repository
+      get_url:
+        url: "http://{{ nexus_server }}/repository/{{ nexus_repository }}/{{ group_id }}/{{ artifact_id }}/{{ version }}/{{ artifact_id }}-{{ version }}.war"
+        dest: /opt/tomcat/apache-tomcat-10.0.8/webapps/{{ artifact_id }}-{{ version }}.war
+
+      vars:
+        group_id: "example/demo"
+        version: "{{my_variable}}"
+        nexus_repository: "tomcat-Release"
+        artifact_id: "helloworld"
+        nexus_server: "18.183.95.23:8081"

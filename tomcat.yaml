@@ -1,0 +1,15 @@
+---
+ - name: install tomcat and copy artifact
+   hosts: all
+   tasks:
+     - name: import tomcat role
+       import_role:
+         name: Tomcat_setup
+
+     - name: Copy artifact from nexus repository
+       import_role:
+         name: Copy_artifact    
+
+     - name: restart tomcat service
+       import_role:
+         name: tomcat_restart
