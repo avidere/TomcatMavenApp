@@ -90,6 +90,7 @@ pipeline {
 
             steps{
                 sshagent(['Ansible-Server']) {
+                    sh 'scp /var/lib/jenkins/workspace/Tomcat-Project/* -l devops 18.183.130.147 /home/devops'
                     sh 'ssh -o StrictHostKeyChecking=no -l devops 18.183.130.147 pwd'
                 }
             }
