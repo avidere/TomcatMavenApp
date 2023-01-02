@@ -85,6 +85,20 @@ pipeline {
                 }
             }
         }
+        stage('Transfer file on remote file'){
+            steps{
+                    def remote = [:]
+                    remote.name = 'ubuntu'
+                    remote.host = '18.183.130.147'
+                    remote.user = 'devops'
+                    remote.password = 'devops'
+                    remote.allowAnyHosts = true
+                    stage('Remote SSH') {
+                    writeFile file: 'abc.sh', text: 'ls -lrt'
+                    sshPut remote: remote, from: 'abc.sh', into: '.'
+                }
+            }
+        }
 
         stage('Execute Ansible Playbook on Ansible controller node'){
 
