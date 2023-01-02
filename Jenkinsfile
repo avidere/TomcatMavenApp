@@ -79,7 +79,7 @@ pipeline {
                     nexusUrl: "${env.nex_url}",
                     nexusVersion: "${env.nex_ver}",
                     protocol: "${env.proto}",
-                    repository: "$(env.nex_repo)",
+                    repository: "tomcat-SNAPSHOT",
                     version: "${mavenpom.version}"
                     echo 'Artifact uploaded to nexus repository'
                 }
