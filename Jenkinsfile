@@ -20,11 +20,10 @@ pipeline {
         def nex_ver = 'nexus3'
         def proto = 'http'
 
-        def remote = [:]
-        remote_name = 'ubuntu'
-        remote_host = '18.183.130.147'
-        remote_user = 'devops'
-        remote_password = 'devops'
+        def remote_name = 'ubuntu'
+        def remote_host = '18.183.130.147'
+        def remote_user = 'devops'
+        def remote_password = 'devops'
         
     }
     stages {
@@ -95,7 +94,7 @@ pipeline {
         stage('Transfer pom.xml file on remote server') {
             steps{
                 script{
-                    //def remote = [:]
+                    def remote = [:]
                     remote.name = "${remote_name}"
                     remote.host = "${remote_host}"
                     remote.user = "${remote_user}"
