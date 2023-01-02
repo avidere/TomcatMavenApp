@@ -107,7 +107,7 @@ pipeline {
 
             steps{
                 sshagent(['Ansible-Server']) {
-                    sh 'ssh -o StrictHostKeyChecking=no -l devops 18.183.130.147 cd Ansible_playbook && Ansible-playbook tomcat.yaml -i inventory'
+                    sh 'ssh -o StrictHostKeyChecking=no -l devops 18.183.130.147 cd Ansible_playbook && ansible-playbook tomcat.yaml -i inventory'
                 }
             }
         } 
