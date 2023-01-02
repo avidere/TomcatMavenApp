@@ -84,6 +84,15 @@ pipeline {
                     echo 'Artifact uploaded to nexus repository'
                 }
             }
+        }
+
+        stage('Execute Ansible Playbook on Ansible controller node'){
+
+            steps{
+                sshagent(['Ansible-Server']) {
+                    sh 'ssh -o StrictHostKeyChecking=no -l devops 18.183.130.147 pwd'
+                }
+            }
         } 
 
     }
