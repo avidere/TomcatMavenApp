@@ -95,8 +95,8 @@ pipeline {
                     remote.password = 'devops'
                     remote.allowAnyHosts = true
                     stage('Remote SSH') {
-                    writeFile file: 'abc.sh', text: 'ls -lrt'
-                    sshPut remote: remote, from: 'abc.sh', into: '.'
+                   // writeFile file: 'abc.sh', text: 'ls -lrt'
+                    sshPut remote: remote, from: '/var/lib/jenkins/workspace/Tomcat-Project/pom.xml', into: '.'
                    }
 
                 }
