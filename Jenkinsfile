@@ -79,13 +79,13 @@ pipeline {
                     nexusUrl: "${env.nex_url}",
                     nexusVersion: "${env.nex_ver}",
                     protocol: "${env.proto}",
-                    repository: "tomcat-SNAPSHOT",
+                    repository: "$(env.nex_repo)",
                     version: "${mavenpom.version}"
                     echo 'Artifact uploaded to nexus repository'
                 }
             }
         }
-        stage('Transfer file on remote file'){
+        stage('Remote SSH') {
             steps{
                 script{
                     def remote = [:]
@@ -94,10 +94,9 @@ pipeline {
                     remote.user = 'devops'
                     remote.password = 'devops'
                     remote.allowAnyHosts = true
-                    stage('Remote SSH') {
-                   // writeFile file: 'abc.sh', text: 'ls -lrt'
+                  //  stage('Remote SSH') {
                     sshPut remote: remote, from: '/var/lib/jenkins/workspace/Tomcat-Project/pom.xml', into: '.'
-                   }
+                  // }
 
                 }
             }
