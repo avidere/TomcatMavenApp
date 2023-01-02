@@ -87,6 +87,7 @@ pipeline {
         }
         stage('Transfer file on remote file'){
             steps{
+                script{
                     def remote = [:]
                     remote.name = 'ubuntu'
                     remote.host = '18.183.130.147'
@@ -96,6 +97,8 @@ pipeline {
                     stage('Remote SSH') {
                     writeFile file: 'abc.sh', text: 'ls -lrt'
                     sshPut remote: remote, from: 'abc.sh', into: '.'
+                   }
+
                 }
             }
         }
