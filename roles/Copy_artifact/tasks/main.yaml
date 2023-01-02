@@ -1,5 +1,0 @@
- - name: download artifact from nexus server
-   become: yes
-   get_url:
-     url: http://35.76.123.24:8081/repository/tomcat-SNAPSHOT/com/example/helloworld/1.0-SNAPSHOT/helloworld-1.0-20221227.115435-28.war
-     dest: /opt/tomcat/apache-tomcat-10.0.8/webapps
