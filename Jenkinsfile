@@ -130,7 +130,8 @@ pipeline {
                           sh "ssh -o StrictHostKeyChecking=no -l ubuntu 172.31.22.228 sudo rm -rf TomcatMavenApp"
                           sh "ssh -o StrictHostKeyChecking=no -l ubuntu 172.31.22.228 git clone ${git_url} "
                           sh "ssh -o StrictHostKeyChecking=no -l ubuntu 172.31.22.228 sudo sed -i 's/tag/${env.BUILD_NUMBER}/g' /home/ubuntu/TomcatMavenApp/helm-chart/values.yaml"
-                          sh "ssh -o StrictHostKeyChecking=no -l ubuntu 172.31.22.228 helm install --generate-name /TomcatMavenApp/helm-chart/"
+                          sh "ssh -o StrictHostKeyChecking=no -l ubuntu 172.31.22.228 helm uninstall demoapp1 TomcatMavenApp/helm-chart/"
+                          sh "ssh -o StrictHostKeyChecking=no -l ubuntu 172.31.22.228 helm install demoapp1 TomcatMavenApp/helm-chart/"
                           sh "ssh -o StrictHostKeyChecking=no -l ubuntu 172.31.22.228 kubectl get all"
                           sh "ssh -o StrictHostKeyChecking=no -l ubuntu 172.31.22.228 kubectl get nodes -o wide"
                     
