@@ -9,7 +9,7 @@ pipeline {
 
         def mvntest = 'mvn test '
         def mvnpackage = 'mvn clean install'
-
+        def build_no = "${env.BUILD_NUMBER}"
         def sonar_cred = 'sonar'
         def code_analysis = 'mvn clean install sonar:sonar'
         def utest_url = 'target/surefire-reports/**/*.xml'
