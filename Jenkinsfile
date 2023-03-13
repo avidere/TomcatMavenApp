@@ -16,12 +16,12 @@ pipeline {
 
         def nex_cred = 'nexus'
         def grp_ID = 'example.demo'
-        def nex_url = '172.31.28.226:8081'
+        def nex_url = '172.31.20.5:8081'
         def nex_ver = 'nexus3'
         def proto = 'http'
 
         def remote_name = 'ubuntu'
-        def remote_host = '18.183.130.147'
+        def remote_host = '172.31.22.228'
         def remote_user = 'devops'
         def remote_password = 'devops'
         
@@ -91,28 +91,24 @@ pipeline {
                 }
             }
         }
-        stage('Transfer pom.xml file on remote server') {
+		stage('Build Docker image and push To Docker hub'){
             steps{
+                withCredentials([usernamePassword(credentialsId: 'Docker_hub', passwordVariable: 'docker_pass', usernameVariable: 'docker_user')]) {
                 script{
-                    def remote = [:]
-                    remote.name = "${remote_name}"
-                    remote.host = "${remote_host}"
-                    remote.user = "${remote_user}"
-                    remote.password = "${remote_password}"
-                    remote.allowAnyHosts = true
-                    sshPut remote: remote, from: '/var/lib/jenkins/workspace/Tomcat-Project/pom.xml', into: '.'
-                    sshPut remote: remote, from: '/var/lib/jenkins/workspace/Tomcat-Project/roles', into: '.'
-                    sshPut remote: remote, from: '/var/lib/jenkins/workspace/Tomcat-Project/tomcat.yaml', into: '.'
-                    sshPut remote: remote, from: '/var/lib/jenkins/workspace/Tomcat-Project/inventory', into: '.'
-                }
-            }
-        }
+                    sshagent(['Docker-Server']) {
+                          //sh "ssh -o StrictHostKeyChecking=no -l dockeradmin 172.31.2.23 sudo rm -r Pythonapp-deployment"
+                          sh "ssh -o StrictHostKeyChecking=no -l dockeradmin 172.31.22.228 git clone ${git_url} "
 
-        stage('Execute Ansible Playbook on Ansible controller node'){
-
-            steps{
-                sshagent(['Ansible-Server']) {
-                    sh 'ssh -o StrictHostKeyChecking=no -l devops 18.183.130.147 ansible-playbook tomcat.yaml -i inventory'
+       
+                          sh "ssh -o StrictHostKeyChecking=no -l dockeradmin 172.31.22.228 sudo sed -i 's/tag/${env.BUILD_NUMBER}/g' /home/dockeradmin/Pythonapp-deployment/web_deployment.yaml"
+                         // sh "ssh -o StrictHostKeyChecking=no -l dockeradmin 172.31.2.23 sudo cp /home/ubuntu/Pythonapp-deployment/*.yaml /home/ubuntu/"
+                          sh "ssh -o StrictHostKeyChecking=no -l dockeradmin 172.31.22.228 docker build -t avinashdere99/python:${env.BUILD_NUMBER} /home/dockeradmin/Pythonapp-deployment/."
+                          sh "ssh -o StrictHostKeyChecking=no -l dockeradmin 172.31.22.228 docker login -u $docker_user -p $docker_pass"
+                       //   sh "ssh -o StrictHostKeyChecking=no -l dockeradmin 172.31.2.23 sudo rm -r Pythonapp-deployment "
+                          sh "ssh -o StrictHostKeyChecking=no -l dockeradmin 172.31.22.228 docker push avinashdere99/python:${env.BUILD_NUMBER}"
+                          sh "ssh -o StrictHostKeyChecking=no -l dockeradmin 172.31.22.228 docker rmi avinashdere99/python:${env.BUILD_NUMBER}"
+                    }
+                  }
                 }
             }
         } 
