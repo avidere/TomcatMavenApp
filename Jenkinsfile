@@ -98,7 +98,7 @@ pipeline {
                     sshagent(['Docker-Server']) {
 
                         def mavenpom = readMavenPom file: 'pom.xml'
-                        def artifactId= 'tomcat-Release'
+                        def artifactId= 'helloworld'
                         def tag = "${mavenpom.version}"
 
                           sh "ssh -o StrictHostKeyChecking=no -l dockeradmin 172.31.22.228 sudo rm -rf TomcatMavenApp"
