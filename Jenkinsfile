@@ -97,6 +97,7 @@ pipeline {
                 script{
                     sshagent(['Docker-Server']) {
 
+                        def mavenpom = readMavenPom file: 'pom.xml'
                         def artifactId= 'tomcat-Release'
                         def tag = "${mavenpom.version}"
 
