@@ -96,7 +96,7 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'Docker_hub', passwordVariable: 'docker_pass', usernameVariable: 'docker_user')]) {
                 script{
                     sshagent(['Docker-Server']) {
-                          sh "ssh -o StrictHostKeyChecking=no -l dockeradmin 172.31.2.23 sudo rm -r TomcatMavenApp"
+                          sh "ssh -o StrictHostKeyChecking=no -l dockeradmin 172.31.2.23 sudo rm -rf TomcatMavenApp"
                           sh "ssh -o StrictHostKeyChecking=no -l dockeradmin 172.31.22.228 git clone ${git_url} "
 
        
