@@ -96,17 +96,17 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'Docker_hub', passwordVariable: 'docker_pass', usernameVariable: 'docker_user')]) {
                 script{
                     sshagent(['Docker-Server']) {
-                          //sh "ssh -o StrictHostKeyChecking=no -l dockeradmin 172.31.2.23 sudo rm -r Pythonapp-deployment"
+                          sh "ssh -o StrictHostKeyChecking=no -l dockeradmin 172.31.2.23 sudo rm -r TomcatMavenApp"
                           sh "ssh -o StrictHostKeyChecking=no -l dockeradmin 172.31.22.228 git clone ${git_url} "
 
        
-                          sh "ssh -o StrictHostKeyChecking=no -l dockeradmin 172.31.22.228 sudo sed -i 's/tag/${env.BUILD_NUMBER}/g' /home/dockeradmin/Pythonapp-deployment/web_deployment.yaml"
-                         // sh "ssh -o StrictHostKeyChecking=no -l dockeradmin 172.31.2.23 sudo cp /home/ubuntu/Pythonapp-deployment/*.yaml /home/ubuntu/"
-                          sh "ssh -o StrictHostKeyChecking=no -l dockeradmin 172.31.22.228 docker build -t avinashdere99/python:${env.BUILD_NUMBER} /home/dockeradmin/Pythonapp-deployment/."
+                          sh "ssh -o StrictHostKeyChecking=no -l dockeradmin 172.31.22.228 sudo sed -i 's/tag/${env.BUILD_NUMBER}/g' /home/dockeradmin/TomcatMavenApp/helm-chart/values.yaml"
+                         
+                          sh "ssh -o StrictHostKeyChecking=no -l dockeradmin 172.31.22.228 docker build -t avinashdere99/tomcat:${env.BUILD_NUMBER} /home/dockeradmin/TomcatMavenApp/."
                           sh "ssh -o StrictHostKeyChecking=no -l dockeradmin 172.31.22.228 docker login -u $docker_user -p $docker_pass"
                        //   sh "ssh -o StrictHostKeyChecking=no -l dockeradmin 172.31.2.23 sudo rm -r Pythonapp-deployment "
-                          sh "ssh -o StrictHostKeyChecking=no -l dockeradmin 172.31.22.228 docker push avinashdere99/python:${env.BUILD_NUMBER}"
-                          sh "ssh -o StrictHostKeyChecking=no -l dockeradmin 172.31.22.228 docker rmi avinashdere99/python:${env.BUILD_NUMBER}"
+                          sh "ssh -o StrictHostKeyChecking=no -l dockeradmin 172.31.22.228 docker push avinashdere99/tomcat:${env.BUILD_NUMBER}"
+                          sh "ssh -o StrictHostKeyChecking=no -l dockeradmin 172.31.22.228 docker rmi avinashdere99/tomcat:${env.BUILD_NUMBER}"
                     }
                   }
                 }

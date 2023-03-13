@@ -5,8 +5,8 @@
 replicaCount: 1
 
 image:
-  repository: avinashdere99/tomcat:2.1.2-20
-  pullPolicy: IfNotPresent
+  repository: avinashdere99/tomcat:tag
+  pullPolicy: Always
 
 service:
   type: NodePort
